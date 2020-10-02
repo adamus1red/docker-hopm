@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  hopm:
+    build: .
+    image: adamus1red/hopm:latest
+    configs:
+      - source: hopm_config
+        target: /hopm/hopm.conf
+
+configs:
+  hopm_config:
+    file: ./hopm.conf
