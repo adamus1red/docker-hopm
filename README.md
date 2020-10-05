@@ -1,5 +1,8 @@
-# docker-hopm
-
+# HOPM Docker
+![Docker Pulls](https://img.shields.io/docker/pulls/adamus1red/hopm?style=for-the-badge)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/adamus1red/docker-hopm/Docker%20Publish?style=for-the-badge)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/adamus1red/hopm/latest?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/adamus1red/docker-hopm?style=for-the-badge)
 ## What is HOPM
 HOPM (Hybrid Open Proxy Monitor) is an open-proxy monitoring bot designed to
 monitor an individual server (all servers on the network have to run their own
