@@ -5,6 +5,11 @@
   ],
   "packageRules": [
     {
+      "datasources": ["docker"],
+      "packageNames": ["gcc"],
+      "versioning": "semver"
+    },
+    {
       "updateTypes": ["minor","patch","pin","digest"],
       "automerge": true
     }
