@@ -38,7 +38,7 @@ jobs:
           # Indicate if the builded image should be published on Docker HUB
           publish: true # optional, default is false
           # Platforms (comma separated) that should be used to build the image
-          platform: linux/amd64,linux/arm64,linux/arm/v7,linux/s390x,linux/ppc64le
+          platform: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6
           # User that will publish the image, if indicated
           dockerHubUser: ${{ secrets.DOCKER_USERNAME }} # optional
           # Password of the dockerHubUser
