@@ -1,4 +1,4 @@
-ARG PKG="git gcc make binutils libc6-compat g++"
+ARG PKG="git gcc make binutils libc6-compat g++ openssl-dev"
 
 FROM alpine:3.12.0
 ARG PKG
