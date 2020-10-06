@@ -6,7 +6,7 @@
   "packageRules": [
     {
       "datasources": ["docker"],
-      "packageNames": ["gcc"],
+      "packageNames": ["alpine"],
       "versioning": "semver"
     },
     {
