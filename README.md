@@ -36,7 +36,13 @@ or via docker-compose:
 
 # Multi-Arch builds
 
-In the works but currently if [gcc docker](https://hub.docker.com/_/gcc) supports it then it's fairly easy to build using the docker-compose above.
+We currently build and publish the following OS/Arch builds of the HOPM container automatically.
+* linux/amd64
+* linux/arm64
+* linux/arm/v7
+* linux/arm/v6
+* linux/ppc64le
+* linux/s390x
 
 # Contributing
 
