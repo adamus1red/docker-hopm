@@ -44,6 +44,28 @@ jobs:
           dockerHubUser: ${{ secrets.DOCKER_USERNAME }} # optional
           # Password of the dockerHubUser
           dockerHubPassword: ${{ secrets.DOCKER_PASSWORD }} # optional
+          
+      - name: Docker multi-arch Build
+        # You may pin to the exact commit or the version.
+        # uses: zmingxie/docker_buildx@6bb5966271e5b1f99b5739024cc84567e5a89d18
+        uses: zmingxie/docker_buildx@v1.1
+        with:
+          # Tags (comma separated) to apply to the image
+          tag: latest # optional, default is latest
+          # Name of the image
+          imageName: ${{ secrets.DOCKER_ALT }}
+          # Name of the Dockerfile
+          dockerFile: Dockerfile # optional, default is Dockerfile
+          # Docker `--build-arg` flags (*comma separated*)
+          # buildArg: # optional, default is none
+          # Indicate if the builded image should be published on Docker HUB
+          publish: true # optional, default is false
+          # Platforms (comma separated) that should be used to build the image
+          platform: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6
+          # User that will publish the image, if indicated
+          dockerHubUser: ${{ secrets.DOCKER_USERNAME }} # optional
+          # Password of the dockerHubUser
+          dockerHubPassword: ${{ secrets.DOCKER_PASSWORD }} # optiona
 
 
 
