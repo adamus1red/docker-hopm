@@ -1,17 +1,23 @@
 ARG PKG="git gcc make binutils libc6-compat g++ openssl-dev"
+ARG UID=1001
+ARG GID=1001
 
 FROM alpine:3.12.1
 ARG PKG
-#COPY ./hopm /usr/src/hopm
+ARG UID
+ARG GID
+
 WORKDIR /usr/src/hopm
-RUN apk add --no-cache --virtual build ${PKG} \
+RUN set -x \
+    && apk add --no-cache --virtual build ${PKG} \
     && git clone --depth 1 https://github.com/ircd-hybrid/hopm.git /usr/src/hopm \
-    && ./configure --prefix=/usr/local --sysconfdir=/hopm \
+    && ./configure --prefix=/app --sysconfdir=/hopm \
     && make && make install \
     && rm -rf /usr/src/hopm \
     && apk del build \
-    && addgroup -S hopm && adduser -S hopm -G hopm
-    
+    && addgroup -g ${GID} -S hopm && adduser --uid ${UID} --home /hopm -S hopm -G hopm \
+    && chown -R hopm:hopm /app
+
 USER hopm
 WORKDIR /hopm
-CMD ["/usr/local/bin/hopm", "-d"]
+CMD ["/app/bin/hopm", "-d"]
