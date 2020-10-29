@@ -9,6 +9,9 @@ RUN apk add --no-cache --virtual build ${PKG} \
     && ./configure --prefix=/usr/local --sysconfdir=/hopm \
     && make && make install \
     && rm -rf /usr/src/hopm \
-    && apk del build
+    && apk del build \
+    && addgroup -S hopm && adduser -S hopm -G hopm
+    
+USER hopm
 WORKDIR /hopm
 CMD ["/usr/local/bin/hopm", "-d"]
