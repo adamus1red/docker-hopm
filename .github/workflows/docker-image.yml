@@ -1,8 +1,8 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: [ main ]
+#   push:
+#     branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -13,6 +13,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag adamus1red/hopm:$(date +%s)
+      - uses: actions/checkout@v2
+
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          install: true
+
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: adamus1red/hopm,${{ secrets.DOCKER_ALT }}
+          tags: |
+            type=schedule
+            type=ref,event=pr
+            type=semver,pattern={{version}},prefix=v
+            type=semver,pattern={{major}}.{{minor}},prefix=v
+            type=semver,pattern={{major}},prefix=v
+      -
+        name: Available platforms
+        run: echo ${{ steps.meta.outputs.tags }}
+        
+      - name: Docker multi-arch Build
+        run: |
+          docker build -t adamus1red/hopm:latest,${{ secrets.DOCKER_ALT }}:latest
+          --platform linux/amd64,linux/386,linux/arm64,linux/ppc64le,linux/arm/v7,linux/arm/v6 .
