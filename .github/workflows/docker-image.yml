@@ -34,6 +34,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: adamus1red/hopm,${{ secrets.DOCKER_ALT }}
+          sep-tags: ','
           tags: |
             type=schedule
             type=ref,event=pr
