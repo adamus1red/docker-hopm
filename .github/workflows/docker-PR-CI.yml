@@ -40,12 +40,13 @@ jobs:
             type=semver,pattern={{version}},prefix=v
             type=semver,pattern={{major}}.{{minor}},prefix=v
             type=semver,pattern={{major}},prefix=v
-      -
-        name: Available platforms
-        run: for f in ${{ steps.meta.outputs.tags }}; do echo ${f}; done
+      #-
+        #name: Available platforms
+        #run: for f in ${{ steps.meta.outputs.tags }}; do echo ${f}; done
         
       - name: Docker multi-arch Build
         run: |
-          for tag in ${{ steps.meta.outputs.tags }}; do \
+          readarray -t tags <<<"${{ steps.meta.outputs.tags }}"
+          for tag in ${tags[@]}; do \
             docker build -t ${tag} --platform linux/amd64,linux/386,linux/arm64,linux/ppc64le,linux/arm/v7,linux/arm/v6 . \
           done
