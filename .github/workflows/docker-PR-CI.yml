@@ -34,7 +34,6 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: adamus1red/hopm,${{ secrets.DOCKER_ALT }}
-          sep-tags: ' --tag '
           tags: |
             type=schedule
             type=ref,event=pr
@@ -47,4 +46,6 @@ jobs:
         
       - name: Docker multi-arch Build
         run: |
-          docker build -t ${{ steps.meta.outputs.tags }} --platform linux/amd64,linux/386,linux/arm64,linux/ppc64le,linux/arm/v7,linux/arm/v6 .
+          for f in ${{ steps.meta.outputs.tags }}; do \
+          docker build -t ${{ steps.meta.outputs.tags }} --platform linux/amd64,linux/386,linux/arm64,linux/ppc64le,linux/arm/v7,linux/arm/v6 . \
+          done
