@@ -23,51 +23,43 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      
-      - name: Docker multi-arch Build
-        # You may pin to the exact commit or the version.
-        # uses: zmingxie/docker_buildx@6bb5966271e5b1f99b5739024cc84567e5a89d18
-        uses: zmingxie/docker_buildx@v1.1
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+      -
+        name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
         with:
-          # Tags (comma separated) to apply to the image
-          tag: latest # optional, default is latest
-          # Name of the image
-          imageName: adamus1red/hopm
-          # Name of the Dockerfile
-          dockerFile: Dockerfile # optional, default is Dockerfile
-          # Docker `--build-arg` flags (*comma separated*)
-          # buildArg: # optional, default is none
-          # Indicate if the builded image should be published on Docker HUB
-          publish: true # optional, default is false
-          # Platforms (comma separated) that should be used to build the image
-          platform: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6
-          # User that will publish the image, if indicated
-          dockerHubUser: ${{ secrets.DOCKER_USERNAME }} # optional
-          # Password of the dockerHubUser
-          dockerHubPassword: ${{ secrets.DOCKER_PASSWORD }} # optional
+          install: true
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v1
+        if: github.event_name != 'pull_request'
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
           
-      - name: Docker multi-arch Build
-        # You may pin to the exact commit or the version.
-        # uses: zmingxie/docker_buildx@6bb5966271e5b1f99b5739024cc84567e5a89d18
-        uses: zmingxie/docker_buildx@v1.1
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
         with:
-          # Tags (comma separated) to apply to the image
-          tag: latest # optional, default is latest
-          # Name of the image
-          imageName: ${{ secrets.DOCKER_ALT }}
-          # Name of the Dockerfile
-          dockerFile: Dockerfile # optional, default is Dockerfile
-          # Docker `--build-arg` flags (*comma separated*)
-          # buildArg: # optional, default is none
-          # Indicate if the builded image should be published on Docker HUB
-          publish: true # optional, default is false
-          # Platforms (comma separated) that should be used to build the image
-          platform: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6
-          # User that will publish the image, if indicated
-          dockerHubUser: ${{ secrets.DOCKER_USERNAME }} # optional
-          # Password of the dockerHubUser
-          dockerHubPassword: ${{ secrets.DOCKER_PASSWORD }} # optiona
-
-
-
+          images: adamus1red/hopm,${{ secrets.DOCKER_ALT }}
+          tags: |
+            type=schedule
+            type=ref,event=pr
+            type=semver,pattern={{version}},prefix=v
+            type=semver,pattern={{major}}.{{minor}},prefix=v
+            type=semver,pattern={{major}},prefix=v
+      -
+        name: Available platforms
+        run: echo ${{ steps.meta.outputs.tags }}
+        
+      - name: Docker multi-arch Build
+        run: |
+          docker build --push -t adamus1red/hopm:latest,${{ secrets.DOCKER_ALT }}:latest
+          --platform linux/amd64,linux/386,linux/arm64,linux/ppc64le,linux/arm/v7,linux/arm/v6 .
