@@ -1,6 +1,6 @@
 ARG PKG="git gcc make binutils libc6-compat g++ openssl-dev"
 
-FROM alpine:3.15.3
+FROM alpine:3.15.4
 ARG PKG
 #COPY ./hopm /usr/src/hopm
 WORKDIR /usr/src/hopm
