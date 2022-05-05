@@ -66,7 +66,7 @@ jobs:
       -
         name: Docker meta
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: adamus1red/hopm,${{ secrets.DOCKER_ALT }},ghcr.io/${{ github.repository }}
           sep-tags: ','
