@@ -1,6 +1,6 @@
 ARG PKG="git gcc make binutils libc6-compat g++ openssl-dev"
 
-FROM alpine:3.19.0 AS build
+FROM alpine:3.19.1 AS build
 ARG PKG
 #COPY ./hopm /usr/src/hopm
 WORKDIR /src
@@ -9,7 +9,7 @@ RUN apk add --no-cache --virtual build ${PKG} \
     && ./configure --prefix=/app --sysconfdir=/hopm \
     && make && make install
 
-FROM alpine:3.19.0 AS app
+FROM alpine:3.19.1 AS app
 COPY --from=build /app /app
 WORKDIR /hopm
 CMD ["/app/bin/hopm", "-d"]
