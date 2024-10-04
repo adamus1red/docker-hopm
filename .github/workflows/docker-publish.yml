@@ -9,6 +9,9 @@ on:
     branches: [ main ]
     tags:
       - 'v*'
+  pull_request:
+    branches: [ main ]
+    
   workflow_dispatch: 
 
 env:
@@ -66,25 +69,23 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: adamus1red/hopm,${{ secrets.DOCKER_ALT }},ghcr.io/${{ github.repository }}
-          sep-tags: ','
           flavor: |
-            latest=false
+            latest=auto
           tags: |
-            type=schedule
+            type=edge
             type=ref,event=pr
             type=semver,pattern={{version}},prefix=v
             type=semver,pattern={{major}}.{{minor}},prefix=v
             type=semver,pattern={{major}},prefix=v
-            type=raw,enable=${{ steps.extract_branch.outputs.branch == 'main' }},value=latest
         
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          provenance: mode=max
           platforms: ${{ env.default_platforms }}
-          labels: |
-            org.opencontainers.image.source=${{ github.event.repository.html_url }}
-            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
-            org.opencontainers.image.revision=${{ github.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
