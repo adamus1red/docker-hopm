@@ -1,6 +1,6 @@
 # HOPM Docker
 [![Docker Pulls](https://img.shields.io/docker/pulls/adamus1red/hopm?style=for-the-badge)](https://hub.docker.com/r/adamus1red/hopm)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/adamus1red/docker-hopm/Docker%20Publish?style=for-the-badge)](https://github.com/adamus1red/docker-hopm/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/adamus1red/docker-hopm/docker-publish.yml?style=for-the-badge)](https://github.com/adamus1red/docker-hopm/actions)
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/adamus1red/hopm/latest?style=for-the-badge)](https://hub.docker.com/r/adamus1red/hopm/tags)
 [![GitHub](https://img.shields.io/github/license/adamus1red/docker-hopm?style=for-the-badge)](https://github.com/adamus1red/docker-hopm)
 ## What is HOPM
