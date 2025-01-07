@@ -1,7 +1,7 @@
 ARG PKG="gcc make binutils libc6-compat g++ openssl-dev"
 
 ## Build Container
-FROM alpine:3.21.0 AS build
+FROM alpine:3.21.1 AS build
 
 ARG PKG
 WORKDIR /src
@@ -14,7 +14,7 @@ RUN apk add --no-cache --virtual .build-deps ${PKG} \
 
 
 ## Runtime Container
-FROM alpine:3.21.0 AS app
+FROM alpine:3.21.1 AS app
 COPY --from=build /app /app
 WORKDIR /hopm
 CMD ["/app/bin/hopm", "-d"]
