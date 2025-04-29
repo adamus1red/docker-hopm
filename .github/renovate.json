@@ -4,7 +4,7 @@
     "docker:enableMajor",
     "schedule:nonOfficeHours"
   ],
-  "includeForks": true,
+  "forkProcessing": "enabled",
   "git-submodules": {
     "enabled": true
   }
