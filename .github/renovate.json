@@ -8,4 +8,8 @@
   "git-submodules": {
     "enabled": true
   }
+  "packageRules": [
+    {
+      "automerge": true
+    }
 }
