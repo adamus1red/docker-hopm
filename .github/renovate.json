@@ -7,7 +7,7 @@
   "forkProcessing": "enabled",
   "git-submodules": {
     "enabled": true
-  }
+  },
   "packageRules": [
     {
       "automerge": true
